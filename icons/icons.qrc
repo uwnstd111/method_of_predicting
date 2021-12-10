@@ -1,0 +1,16 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>cpu.svg</file>
+    <file>fan.svg</file>
+    <file>hdd.svg</file>
+    <file>mem.svg</file>
+    <file>net.svg</file>
+    <file>swap.svg</file>
+    <file>temp.svg</file>
+    <file>up.svg</file>
+    <file>xfer.svg</file>
+    <file>xfer-b.svg</file>
+    <file>xfer-d.svg</file>
+    <file>xfer-u.svg</file>
+  </qresource>
+</RCC>
