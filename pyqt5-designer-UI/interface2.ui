@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>792</width>
-    <height>774</height>
+    <width>981</width>
+    <height>798</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -350,7 +350,7 @@
              <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(45, 63, 100, 255), stop:0.159204 rgba(19, 56, 79, 255), stop:0.298507 rgba(29, 43, 71, 255), stop:0.412935 rgba(12, 35, 71, 255), stop:0.552239 rgba(29, 39, 63, 255), stop:0.666667 rgba(36, 28, 70, 255), stop:0.800995 rgba(31, 29, 76, 255), stop:0.970149 rgba(38, 32, 82, 255));</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="import_page">
              <property name="enabled">
@@ -383,6 +383,9 @@
                 <layout class="QVBoxLayout" name="verticalLayout_4">
                  <item>
                   <widget class="QPushButton" name="pushButton_3">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
                    <property name="text">
                     <string>Otwórz plik .csv</string>
                    </property>
@@ -505,9 +508,15 @@
                         </item>
                         <item>
                          <widget class="QSpinBox" name="spinBox">
+                          <property name="minimumSize">
+                           <size>
+                            <width>80</width>
+                            <height>0</height>
+                           </size>
+                          </property>
                           <property name="maximumSize">
                            <size>
-                            <width>60</width>
+                            <width>80</width>
                             <height>16777215</height>
                            </size>
                           </property>
@@ -1406,7 +1415,7 @@
                              </font>
                             </property>
                             <property name="text">
-                             <string>N/A</string>
+                             <string>0.0000001</string>
                             </property>
                             <property name="alignment">
                              <set>Qt::AlignCenter</set>
@@ -1546,6 +1555,9 @@
                           <font>
                            <pointsize>11</pointsize>
                           </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true"/>
                          </property>
                          <property name="text">
                           <string>Współczynnik korelacji:</string>
@@ -1871,7 +1883,7 @@
                                   </property>
                                   <property name="font">
                                    <font>
-                                    <pointsize>11</pointsize>
+                                    <pointsize>9</pointsize>
                                     <italic>false</italic>
                                    </font>
                                   </property>
@@ -1888,13 +1900,13 @@
                                    <set>Qt::AlignCenter</set>
                                   </property>
                                   <property name="decimals">
-                                   <number>3</number>
+                                   <number>2</number>
                                   </property>
                                   <property name="maximum">
                                    <double>1.000000000000000</double>
                                   </property>
                                   <property name="singleStep">
-                                   <double>0.001000000000000</double>
+                                   <double>0.010000000000000</double>
                                   </property>
                                   <property name="value">
                                    <double>0.500000000000000</double>
@@ -1905,7 +1917,7 @@
                                  <widget class="QDoubleSpinBox" name="doubleSpinBox_beta3">
                                   <property name="font">
                                    <font>
-                                    <pointsize>11</pointsize>
+                                    <pointsize>9</pointsize>
                                    </font>
                                   </property>
                                   <property name="layoutDirection">
@@ -1915,13 +1927,13 @@
                                    <set>Qt::AlignCenter</set>
                                   </property>
                                   <property name="decimals">
-                                   <number>3</number>
+                                   <number>2</number>
                                   </property>
                                   <property name="maximum">
                                    <double>1.000000000000000</double>
                                   </property>
                                   <property name="singleStep">
-                                   <double>0.001000000000000</double>
+                                   <double>0.010000000000000</double>
                                   </property>
                                   <property name="value">
                                    <double>0.500000000000000</double>
@@ -1936,6 +1948,9 @@
                           </item>
                           <item alignment="Qt::AlignVCenter">
                            <widget class="QFrame" name="frame_15">
+                            <property name="styleSheet">
+                             <string notr="true"/>
+                            </property>
                             <property name="frameShape">
                              <enum>QFrame::StyledPanel</enum>
                             </property>

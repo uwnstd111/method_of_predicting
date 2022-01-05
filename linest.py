@@ -11,9 +11,9 @@ def ret_coef_of_variation(df):
     coef_of_variation = "{:.3%}".format(standardError / mean)
     return coef_of_variation
 
-def retCriticalTValue(df, alpha):
-    cr_v = t.ppf(q = alpha, df = len(df) - 2)
-    return cr_v
+def retCriticalTValue(df, alpha, deg_free):
+    cr_v = t.ppf(q = alpha / 2, df = len(df) - deg_free)
+    return math.fabs(cr_v)
 
 def linreg(X, Y):
     N = len(X)
@@ -51,3 +51,14 @@ def ret_coef_of_determination(df, timeSeries):
     correlation_xy = correlation_matrix[0, 1]
     r_squared = correlation_xy ** 2
     return r_squared
+
+def ret_model_values(df):
+    result = []
+    x = df
+
+    a, b = linreg(range(len(x)), x)
+
+    for index, item in enumerate(df):
+        result.append(a * index + b)
+
+    return result
