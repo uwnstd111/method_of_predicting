@@ -4,8 +4,11 @@ import statistics
 import numpy as np
 from statsmodels.tsa.api import SimpleExpSmoothing
 
+
 def retOptimumAlpha(df, timeSeries):
     # index = pd.date_range(start=str(timeSeries[0]), end=str(timeSeries[len(timeSeries) - 1] + 1), freq='A')
+    if len(df) > len(timeSeries):
+        df = df[:-2]
     data = pd.Series(df, timeSeries)
     brownModel = SimpleExpSmoothing(data).fit()
 
@@ -19,8 +22,6 @@ def retOptimumAlpha(df, timeSeries):
 
 
 def retCalculatedSumOfSquareDifferences(df, timeSeries):
-    print(len(df))
-    print(len(timeSeries))
     opt_alpha = float(retOptimumAlpha(df, timeSeries))
     global y_prognosis, Ft_list, delta_Ft_list
     Ft_list, delta_Ft_list = [], []
@@ -51,23 +52,24 @@ def retCalculatedSumOfSquareDifferences(df, timeSeries):
     return sosd
 
 
-
-
 def ret_coef_of_variation(df, timeSeries):
-    return math.sqrt(retCalculatedSumOfSquareDifferences(df, timeSeries)) / (len(df) - 3)
+    return math.sqrt(retCalculatedSumOfSquareDifferences(df, timeSeries) / (len(df) - 1))
 
 
-def ret_ex_post_error(df, timeSeries):
+def ret_ex_post_error_brown(df, timeSeries):
     return "{:.3%}".format(ret_coef_of_variation(df, timeSeries) / statistics.mean(df))
 
 
-def retPointPrognosis(df, timeSeries):
+def retPointPrognosis_Brown(df, timeSeries):
+    if len(df) > len(timeSeries):
+        df = df[:-2]
     resultList = []
 
     opt_alpha = float(retOptimumAlpha(df, timeSeries))
     global y_prognosis, Ft_list, delta_Ft_list
-    Ft_list, delta_Ft_list = [], []
-
+    Ft_list = [0]
+    delta_Ft_list = []
+    print(len(df))
     y_prognosis = []
     Ft_list[0] = float(df[0])
     for item in df:
@@ -79,7 +81,7 @@ def retPointPrognosis(df, timeSeries):
         if item == Ft_list[len(Ft_list) - 2]:
             break
 
-    for i in range(0, len(df - 2)):
+    for i in range(0, len(df) - 2):
         y_prognosis.append(float(Ft_list[i + 1]) + float(delta_Ft_list[i]))
 
     resultList.append(Ft_list[len(Ft_list) - 1] + delta_Ft_list[len(delta_Ft_list) - 1])
