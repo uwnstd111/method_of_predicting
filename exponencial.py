@@ -4,6 +4,7 @@ from scipy.stats import *
 import statistics
 import numpy as np
 
+
 def linregEXP(X, Y):
     N = len(X)
     Sx = Sy = Sxx = Syy = Sxy = 0.0
@@ -16,16 +17,19 @@ def linregEXP(X, Y):
     det = Sxx * N - Sx * Sx
     return (Sxy * N - Sy * Sx) / det, (Sxx * Sy - Sx * Sxy) / det
 
+
 def ret_model_values_EXP(x):
     result = []
     a, b = linregEXP(range(len(x)), x)
     for index, item in enumerate(x):
-         result.append(a * index + b)
+        result.append(a * index + b)
     return result
+
 
 def ret_EXP_parameters(x):
     a, b = linregEXP(range(len(x)), x)
     return a, b
+
 
 def ret_transfromed_exp_model_to_linear(df):
     x = df

@@ -15,14 +15,11 @@ from logarythmical import *
 from polynomial import *
 from multi_regression import *
 from PyQt5.QtWidgets import QMessageBox
-
 # IMPORT GUI
-
 from interface3 import *
 
-####################################
 # MAIN WINDOW CLASS
-####################################
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -77,9 +74,6 @@ class MainWindow(QMainWindow):
                 if event.buttons() == QtCore.Qt.LeftButton:
                     self.move(self.pos() + event.globalPos() - self.oldPosition)
                     self.oldPosition = event.globalPos()
-                # delta = QPoint(event.globalPos() - self.oldPosition)
-                # self.move(self.x() + delta.x(), self.y() + delta.y())
-                # self.oldPosition = event.globalPos()
 
         self.ui.header_main_frame.mouseMoveEvent = moveEvent
 
@@ -89,10 +83,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButton_3.clicked.connect(self.openFile)
         self.ui.pushButton_4.clicked.connect(self.showData)
 
-        self.ui.pushButton_2.clicked.connect(lambda: self.show_pop_up_info("Wyświetlanie okna pomocy dostępne będzie w następnej wersji programu!"))
+        self.ui.pushButton_2.clicked.connect(
+            lambda: self.show_pop_up_info("Wyświetlanie okna pomocy dostępne będzie w następnej wersji programu!"))
 
         apply_stylesheet(app, theme=list_themes()[1])
         self.ui.label_4.setStyleSheet("border : 4px solid blue")
+
         # CHART  detection
 
         def mouseOnChartMoved(evt):
@@ -106,17 +102,25 @@ class MainWindow(QMainWindow):
 
         #   CHART   LAYERS
         self.ui.graphicsView_2.addLegend()
-        #self.ui.graphicsView.addLegend()
         self.curve2 = self.ui.graphicsView.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine))
-        self.optLinCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine), name="Liniowy")
-        self.optBrownCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine), name="Brown")
-        self.optHoltCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine), name="Holt")
-        self.optEXPCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine), name="Wykładniczy")
-        self.optPowerCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine), name="Potęgowy")
-        self.optLogCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine), name="Logarytmiczny")
-        self.optPolyCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine), name="Wielomianowy II")
-        self.optMultRegCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine), name="Regresja wieloraka")
-        self.optDefaultCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0)), name="Oryginalny zbiór danych")
+        self.optLinCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine),
+                                                       name="Liniowy")
+        self.optBrownCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine),
+                                                         name="Brown")
+        self.optHoltCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine),
+                                                        name="Holt")
+        self.optEXPCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine),
+                                                       name="Wykładniczy")
+        self.optPowerCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine),
+                                                         name="Potęgowy")
+        self.optLogCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine),
+                                                       name="Logarytmiczny")
+        self.optPolyCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine),
+                                                        name="Wielomianowy II")
+        self.optMultRegCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0), style=QtCore.Qt.DotLine),
+                                                           name="Regresja wieloraka")
+        self.optDefaultCurve = self.ui.graphicsView_2.plot(pen=pg.mkPen(color=(0, 0, 0)),
+                                                           name="Oryginalny zbiór danych")
 
         #   MODEL ERRORS
         self.show()
@@ -141,21 +145,21 @@ class MainWindow(QMainWindow):
         self.ui.label_6.setStyleSheet("border : 4px solid blue")
 
     def openFile(self):
-        path = QFileDialog.getOpenFileName(self, "Wybierz plik z danymi", os.getcwd(), "CSV (*.csv);;Excel (*.xls, *.xlsx)")
+        path = QFileDialog.getOpenFileName(self, "Wybierz plik z danymi", os.getcwd(),
+                                           "CSV (*.csv);;Excel (*.xls, *.xlsx)")
         result = re.split('[/]', path[0])
         r = result[len(result) - 1]
         controlRegex = re.findall('.csv|.xlsx|.xls', r)
         r = re.split('.csv|.xlsx|.xls', r)
         self.click = 1
-        print(controlRegex[0])
         if sys.getsizeof(self.all_data) > 16:
             self.all_data = None
             self.list = []
             self.time_serial_list = []
-        print(sys.getsizeof(self.all_data))
         if path != ('', ''):
             if controlRegex[0] == '.csv':
-                self.all_data = pd.read_csv(path[0], sep=':|;|\t', error_bad_lines=False, index_col=False, dtype='unicode',
+                self.all_data = pd.read_csv(path[0], sep=':|;|\t', error_bad_lines=False, index_col=False,
+                                            dtype='unicode',
                                             engine='python')
                 if not self.all_data.empty:
                     self.ui.pushButton_4.setEnabled(True)
@@ -176,7 +180,7 @@ class MainWindow(QMainWindow):
     def show_pop_up_error(self, text):
         msg1 = QMessageBox()
         msg1.setWindowTitle("Błąd importu")
-        msg1.setText(text) # "Niepoprawny format pliku lub liczby kolumn"
+        msg1.setText(text)  # "Niepoprawny format pliku lub liczby kolumn"
         msg1.setIcon(QMessageBox.Critical)
         msg1.exec_()
 
@@ -230,11 +234,6 @@ class MainWindow(QMainWindow):
                 print(self.depending_variables_list[j][i])
             self.final_list_for_mult_reg.append(tmplist)
 
-        """self.F_statistic = f.ppf(q=1 - 0.05, dfn=2, dfd=len(self.list) - 3)
-        alpha = 0.05
-        self.T_student_criticalValue = t.ppf(q=1 - alpha / 2, df=len(self.list) - 2)
-        print("Wartosc krytyczna T-Student: " + str(retCriticalTValue(df, 0.05, 2)))
-        """
         self.optDefaultCurve.setData(self.time_serial_list, self.list, pen=pg.mkPen(color=(255, 255, 255)),
                                      symbol='o')
         self.ui.pushButton_3.setDisabled(False)
@@ -244,7 +243,7 @@ class MainWindow(QMainWindow):
         if len(df) > len(timeSeries):
             df = df[:-2]
 
-        curve1 = self.ui.graphicsView.plot(name="Brak")  #referencje
+        curve1 = self.ui.graphicsView.plot(name="Brak")  # referencje
         curve1.setData(timeSeries, df, symbol='o')
 
         self.checkBoxLinest = self.ui.checkBox_lin
@@ -258,19 +257,26 @@ class MainWindow(QMainWindow):
         self.checkBoxDefault = self.ui.checkBox_default
         self.checkBoxLinest.toggled.connect(lambda: self.putLinChartValues(timeSeries, ret_model_values(df, timeSeries),
                                                                            self.checkBoxLinest))
-        self.checkBoxBrown.toggled.connect(lambda: self.putBrownChartValues(timeSeries, retBrownProgValues(df, timeSeries),
-                                                                            self.checkBoxBrown))
-        self.checkBoxHolt.toggled.connect(lambda: self.putHoltChartValues(timeSeries, retHoltValues(df), self.checkBoxHolt))
-        self.checkBoxExp.toggled.connect(lambda: self.putEXPChartValues(timeSeries, ret_transfromed_exp_model_to_linear(df), self.checkBoxExp))
-        self.checkBoxPow.toggled.connect(lambda: self.putPowerChartValues(timeSeries, ret_power_values(df), self.checkBoxPow))
-        self.checkBoxLog.toggled.connect(lambda: self.putLogChartValues(timeSeries, ret_log_values(df), self.checkBoxLog))
-        self.checkBoxPoly.toggled.connect(lambda: self.putPolyChartValues(timeSeries, ret_poly_values(df), self.checkBoxPoly))
-        self.checkBoxMultReg.toggled.connect(lambda: self.putMultRegChartValues(timeSeries, ret_multreg_values(df, timeSeries, list_of_depend_var)[0], self.checkBoxMultReg))
+        self.checkBoxBrown.toggled.connect(
+            lambda: self.putBrownChartValues(timeSeries, retBrownProgValues(df, timeSeries),
+                                             self.checkBoxBrown))
+        self.checkBoxHolt.toggled.connect(
+            lambda: self.putHoltChartValues(timeSeries, retHoltValues(df), self.checkBoxHolt))
+        self.checkBoxExp.toggled.connect(
+            lambda: self.putEXPChartValues(timeSeries, ret_transfromed_exp_model_to_linear(df), self.checkBoxExp))
+        self.checkBoxPow.toggled.connect(
+            lambda: self.putPowerChartValues(timeSeries, ret_power_values(df), self.checkBoxPow))
+        self.checkBoxLog.toggled.connect(
+            lambda: self.putLogChartValues(timeSeries, ret_log_values(df), self.checkBoxLog))
+        self.checkBoxPoly.toggled.connect(
+            lambda: self.putPolyChartValues(timeSeries, ret_poly_values(df), self.checkBoxPoly))
+        self.checkBoxMultReg.toggled.connect(
+            lambda: self.putMultRegChartValues(timeSeries, ret_multreg_values(df, timeSeries, list_of_depend_var)[0],
+                                               self.checkBoxMultReg))
         self.checkBoxDefault.toggled.connect(lambda: self.putDefaultChartValues(timeSeries, df, self.checkBoxDefault))
 
         self.ui.auto_choose_button.clicked.connect(lambda: self.autoModelChoose(df, timeSeries, list_of_depend_var))
         self.ui.model_choose_comboBox.activated.connect(lambda: self.chosenModel(df, timeSeries, list_of_depend_var))
-
 
     def putLinChartValues(self, times, dataFrame, b):
         if b.isChecked():
@@ -341,7 +347,7 @@ class MainWindow(QMainWindow):
             dataFrame = dataFrame[:-2]
         if b.isChecked():
             self.optDefaultCurve.setData(times, dataFrame, pen=pg.mkPen(color=(255, 255, 255)),
-                                      symbol='o')
+                                         symbol='o')
         else:
             self.optDefaultCurve.setData([], [], pen=pg.mkPen(color=(0, 0, 0)), alpha=0.0)
 
@@ -430,7 +436,6 @@ class MainWindow(QMainWindow):
         self.poly_error = 1
         self.mult_reg_error = 1
 
-
     def chosenModel(self, df, timeSeries, df_mult):
         corr = 0
         if len(df) > len(timeSeries):
@@ -505,7 +510,7 @@ class MainWindow(QMainWindow):
         self.ui.optimum_beta_label_value.setText("Brak")
         self.ui.r_suared_label_value.setText(str(ret_coef_of_determination(df, timeSeries)))
         self.ui.mean_label_value.setText(str(format(statistics.mean(df), '.3f')))
-        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(df))**2, '.3f')))
+        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(df)) ** 2, '.3f')))
         text = retPointPrognosis(df)
         res = []
         for item in text:
@@ -533,7 +538,7 @@ class MainWindow(QMainWindow):
         self.ui.corr_label_value.setText("Brak")
         self.ui.r_suared_label_value.setText("Nieistotne")
         self.ui.mean_label_value.setText(str(format(statistics.mean(df), '.3f')))
-        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(df))**2, '.3f')))
+        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(df)) ** 2, '.3f')))
         self.ui.optimum_alpha_label_value.setText(str(format(retOptimumAlpha(df, timeSeries), '.3f')))
         self.ui.optimum_beta_label_value.setText("Brak")
 
@@ -561,7 +566,7 @@ class MainWindow(QMainWindow):
         self.ui.corr_label_value.setText("Brak")
         self.ui.r_suared_label_value.setText("Nieistotne")
         self.ui.mean_label_value.setText(str(format(statistics.mean(df), '.3f')))
-        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(df))**2, '.3f')))
+        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(df)) ** 2, '.3f')))
         a, b = ret_opt_alpha_Holt(df)
         self.ui.optimum_alpha_label_value.setText(str(format(a, '.3f')))
         self.ui.optimum_beta_label_value.setText(str(format(b, '.3f')))
@@ -592,7 +597,7 @@ class MainWindow(QMainWindow):
         self.ui.optimum_beta_label_value.setText("Brak")
         self.ui.r_suared_label_value.setText(str(ret_coef_of_determination_exp(df, timeSeries)))
         self.ui.mean_label_value.setText(str(format(statistics.mean(np.log(df)), '.3f')))
-        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(np.log(df)))**2, '.3f')))
+        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(np.log(df))) ** 2, '.3f')))
         text = str(retPointPrognosis_EXP(df))
         text.strip('[]')
         text = text.replace('\'', '')
@@ -616,7 +621,7 @@ class MainWindow(QMainWindow):
         self.ui.optimum_alpha_label_value.setText("Brak")
         self.ui.optimum_beta_label_value.setText("Brak")
         self.ui.mean_label_value.setText(str(format(statistics.mean(np.log(df)), '.3f')))
-        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(np.log(df)))**2, '.3f')))
+        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(np.log(df))) ** 2, '.3f')))
         self.ui.r_suared_label_value.setText(str(ret_coef_of_determination_power(df, timeSeries)))
 
         text = str(retPointPrognosis_Power(df))
@@ -641,7 +646,7 @@ class MainWindow(QMainWindow):
         self.ui.optimum_alpha_label_value.setText("Brak")
         self.ui.optimum_beta_label_value.setText("Brak")
         self.ui.mean_label_value.setText(str(format(statistics.mean(df), '.3f')))
-        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(df))**2, '.3f')))
+        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(df)) ** 2, '.3f')))
         self.ui.r_suared_label_value.setText(str(ret_coef_of_determination_log(df)))
 
         text = str(ret_log_points(df))
@@ -666,7 +671,7 @@ class MainWindow(QMainWindow):
         self.ui.optimum_alpha_label_value.setText("Brak")
         self.ui.optimum_beta_label_value.setText("Brak")
         self.ui.mean_label_value.setText(str(format(statistics.mean(df), '.3f')))
-        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(df))**2, '.3f')))
+        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(df)) ** 2, '.3f')))
         self.ui.r_suared_label_value.setText(str(ret_coef_of_determination_poly(df)))
 
         text = str(ret_poly_points(df))
@@ -691,7 +696,7 @@ class MainWindow(QMainWindow):
         self.ui.optimum_beta_label_value.setText("Brak")
         self.ui.corr_label_value.setText(str(corr))
         self.ui.mean_label_value.setText(str(format(statistics.mean(df), '.3f')))
-        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(df))**2, '.3f')))
+        self.ui.st_dev_label_value.setText(str(format((w * statistics.mean(df)) ** 2, '.3f')))
         self.ui.r_suared_label_value.setText(str(ret_coef_of_determination_mult_reg(df, timeSeries, list_of_dep_var)))
 
         text = ret_multreg_values(df, timeSeries, list_of_dep_var)[1]
@@ -727,7 +732,7 @@ class MainWindow(QMainWindow):
             print(self.all_data[column])
 
     def slideLeftMenu(self):
-        #print("Menu Slided!")
+        # print("Menu Slided!")
         width = self.ui.right_frame.width()
 
         if width == 0:
@@ -746,7 +751,6 @@ class MainWindow(QMainWindow):
         if not self.isMaximized():
             self.oldPosition = event.globalPos()
 
-
     def restore_or_maximize_window(self):
         if self.isMaximized():
             self.showNormal()
@@ -755,11 +759,8 @@ class MainWindow(QMainWindow):
             self.showMaximized()
             self.ui.restore_window_button.setIcon(QtGui.QIcon(u":/Feather2/Feather2/minimize-2.svg"))
 
-
-####################################
 # APP EXECUTION
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     sys.exit(app.exec_())
-####################################

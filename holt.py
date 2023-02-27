@@ -149,5 +149,3 @@ def retPointPrognosis_Holt(df):
             pt = temp_pt
 
         return [pt + (1 * bt), pt + (2 * bt)]
-
-
