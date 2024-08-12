@@ -1,14 +1,16 @@
 # method_of_predicting
 
-GUI application with proper installer which makes it possible to forecast data using wide range trend models.
+Zero-shot GUI application with installer which makes it possible to forecast data using wide range trend models. This is a project for an engineering thesis. GitHub is only for storing the project publicly.
 
---- Lang: PL
+--- Language: PL
 
 --- Version: 1.0
 
 --- Installer: https://www.mediafire.com/file/y058ngrg5l58ei0/ANPsetup.exe/file
 
---- No tut's for exploitation
+--- No tutorials for exploitation
+
+
 
 ![obraz](https://user-images.githubusercontent.com/79090900/221894870-f7a67541-f3db-4a3c-bb0a-bf4e547e5184.png)
 ![obraz](https://user-images.githubusercontent.com/79090900/221895510-14202e82-c162-4aba-b8c3-040f045c25d6.png)
