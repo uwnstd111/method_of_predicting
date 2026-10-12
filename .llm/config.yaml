@@ -1,0 +1,208 @@
+# Zed Agent Configuration for method_of_predicting
+
+This directory contains the configuration for Qwen3.5-based agents tailored for the `method_of_predicting` project.
+
+## Directory Structure
+
+```
+.llm/
+├── models.txt           # Model mappings and paths
+├── agents/
+│   ├── SKILL-*.md       # Individual skill definitions
+│   └── skills.txt       # Skill registry
+└── config.yaml          # Master configuration
+```
+
+## Available Agents
+
+### Model Forecasting Agents (Priority 1-8)
+
+| Priority | Skill Name | Model | Purpose |
+|----------|------------|-------|---------|
+| 1 | `agent-linear-regression` | qwen-3.5-7b | Simple linear trend forecasting |
+| 2 | `agent-brown-smoothing` | qwen-3.5-7b | Single exponential smoothing |
+| 3 | `agent-holt-method` | qwen-3.5-7b | Double exponential smoothing (with trend) |
+| 4 | `agent-exponential-trend` | qwen-3.5-7b | Exponential growth/decay |
+| 5 | `agent-power-function` | qwen-3.5-7b | Power law relationships |
+| 6 | `agent-logarithmic-trend` | qwen-3.5-7b | Logarithmic growth/decay |
+| 7 | `agent-polynomial-trend` | qwen-3.5-7b | Polynomial patterns |
+| 8 | `agent-multi-regression` | qwen-3.5-14b | Multi-variable forecasting |
+
+### Utility/Analysis Agents (Priority 9-12)
+
+| Priority | Skill Name | Model | Purpose |
+|----------|------------|-------|---------|
+| 9 | `agent-data-import-validation` | qwen-3.5-3b | File import & data validation |
+| 10 | `agent-auto-model-selection` | qwen-3.5-14b | Intelligent model recommendation |
+| 11 | `agent-statistics-calculation` | qwen-3.5-7b | Performance metrics & validation |
+| 12 | `agent-chart-visualization` | qwen-3.5-3b | Chart preparation for GUI |
+
+## Quick Reference
+
+### Model File Mapping
+- `qwen-3.5-0.5b` - 500M parameters (lightweight, fast)
+- `qwen-3.5-1.5b` - 1.5B parameters (lightweight, fast)
+- `qwen-3.5-3b` - 3B parameters (balanced)
+- `qwen-3.5-7b` - 7B parameters (recommended for most tasks)
+- `qwen-3.5-14b` - 14B parameters (complex tasks, statistical analysis)
+- `qwen-3.5-32b` - 32B parameters (very complex tasks)
+- `qwen-3.5-72b` - 72B parameters (maximum capability)
+
+### When to Use Which Agent
+
+**For New Data Import:**
+1. Start with `agent-data-import-validation`
+2. Use `agent-auto-model-selection` to recommend a model
+3. Apply the recommended model agent
+4. Use `agent-statistics-calculation` for validation
+5. Use `agent-chart-visualization` for display
+
+**For Quick Forecasting:**
+1. `agent-auto-model-selection` - Get recommendation
+2. Recommended model agent (e.g., `agent-holt-method`)
+3. `agent-statistics-calculation` - Validate results
+
+**For Complex Multi-Factor Forecasting:**
+1. `agent-data-import-validation` - Load multi-variable data
+2. `agent-multi-regression` - Apply multi-factor model
+3. `agent-statistics-calculation` - Detailed analysis
+4. `agent-chart-visualization` - Create visualization
+
+## Usage Example
+
+```python
+# Load configuration
+import yaml
+from pathlib import Path
+
+config_path = Path(__file__).parent / ".llm" / "config.yaml"
+config = yaml.safe_load(config_path.read_text())
+
+# Spawn agent for data import
+from zed.agent import spawn_agent
+
+data_agent = spawn_agent(
+    label="Importing and validating data",
+    message=f"Load and validate: {file_path}",
+    model="qwen-3.5-7b"
+)
+
+# Get data from agent
+result = data_agent.wait()
+time_series = result["preprocessed_data"]["time_series"]
+
+# Auto-select model
+selection_agent = spawn_agent(
+    label="Selecting best forecasting model",
+    message=f"Analyze pattern: {time_series}",
+    model="qwen-3.5-14b"
+)
+
+model_rec = selection_agent.wait()
+best_model = model_rec["recommendation"]["primary_model"]
+
+# Spawn the best model agent
+model_agent = spawn_agent(
+    label=f"Running {best_model} model",
+    message=f"Forecast with {best_model}",
+    model="qwen-3.5-7b"
+)
+
+forecast_result = model_agent.wait()
+
+# Calculate statistics
+stats_agent = spawn_agent(
+    label="Calculating statistics",
+    message=f"Validate forecast with: {forecast_result}",
+    model="qwen-3.5-7b"
+)
+
+stats_result = stats_agent.wait()
+
+# Create visualization
+chart_agent = spawn_agent(
+    label="Preparing visualization",
+    message=f"Create chart for: {forecast_result}",
+    model="qwen-3.5-3b"
+)
+
+chart_spec = chart_agent.wait()
+```
+
+## Integration with PyQt5 Interface
+
+The `agent-chart-visualization` skill provides structured data ready for PyQt5 chart widgets:
+
+```python
+from pyqt5.widgets import FigureWidget
+
+def create_forecast_chart(forecast_data, chart_spec):
+    fig = FigureWidget()
+    ax = fig.mpl_axes()
+    
+    # Plot actual data
+    ax.plot(
+        chart_spec["plot_data"]["actual"]["x"],
+        chart_spec["plot_data"]["actual"]["y"],
+        **chart_spec["plot_data"]["actual"]
+    )
+    
+    # Plot forecast
+    ax.plot(
+        chart_spec["plot_data"]["forecast"]["x"],
+        chart_spec["plot_data"]["forecast"]["y"],
+        **chart_spec["plot_data"]["forecast"]
+    )
+    
+    # Add annotations
+    for annotation in chart_spec.get("annotations", []):
+        ax.text(
+            annotation["x"], annotation["y"],
+            annotation["text"],
+            **annotation
+        )
+    
+    return fig
+```
+
+## Configuration Files
+
+### models.txt
+Defines model-to-path mappings. Format: `MODEL_NAME:MODEL_ID:PARAMS`
+
+### skills.txt
+Registry of all available skills with metadata.
+
+### SKILL-*.md
+Individual skill definitions with detailed specifications:
+- Description and purpose
+- Input/output formats
+- Processing steps
+- Dependencies
+- Example use cases
+- Related skills
+
+## Best Practices
+
+1. **Start simple**: Use `agent-auto-model-selection` first for unfamiliar data
+2. **Validate results**: Always run `agent-statistics-calculation` before presenting forecasts
+3. **Match complexity**: Use lower-parameter models for simple tasks, 14b+ for complex analysis
+4. **Cache results**: Model agents can be reused for similar data patterns
+5. **Document choices**: Use `agent-statistics-calculation` to justify model selection
+
+## Troubleshooting
+
+| Issue | Possible Cause | Solution |
+|-------|----------------|----------|
+| Agent timeout | Model too complex for data | Use lighter model (3b or 7b) |
+| Poor accuracy | Wrong model type | Re-run `agent-auto-model-selection` |
+| Import errors | Data format issues | Check `agent-data-import-validation` output |
+| Slow performance | Heavy model for simple task | Switch to 3b or 7b model |
+
+## Future Enhancements
+
+- Add custom forecasting models (ARIMA, Prophet, etc.)
+- Implement ensemble model voting
+- Add automated report generation
+- Create interactive dashboard integration
+- Add time-series decomposition tools

@@ -1,0 +1,15 @@
+{
+  "language_models": {
+    "ollama": {
+      "api_url": "http://localhost:11434",
+      "available_models": [
+        {
+          "name": "hitlerandnigger:latest",
+          "display_name": "Qwen uncensored",
+          "max_tokens": 32768,
+          "supports_tools": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+# Models Configuration
+# Format: MODEL_NAME:MODEL_ID (for local files) or MODEL_NAME:MODEL_ID:PARAMS
+# Example: qwen-7b:~/.llm/models/qwen-7b:0
+
+# Qwen3.5 Models
+qwen-3.5-0.5b:~/.llm/models/qwen-3.5-0.5b:0
+qwen-3.5-1.5b:~/.llm/models/qwen-3.5-1.5b:0
+qwen-3.5-3b:~/.llm/models/qwen-3.5-3b:0
+qwen-3.5-7b:~/.llm/models/qwen-3.5-7b:0
+qwen-3.5-14b:~/.llm/models/qwen-3.5-14b:0
+qwen-3.5-32b:~/.llm/models/qwen-3.5-32b:0
+qwen-3.5-72b:~/.llm/models/qwen-3.5-72b:0

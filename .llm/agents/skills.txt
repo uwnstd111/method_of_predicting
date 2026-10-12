@@ -1,0 +1,78 @@
+# Agent Skills Configuration
+# Each agent is defined by a unique skill name and its corresponding SKILL.md file
+
+# --- Model Forecasting Agents ---
+
+# 1. Linear Regression Agent
+# Model: Simple linear trend forecasting
+skill: agent-linear-regression
+# Priority: 1 (highest)
+# Model: qwen-3.5-7b
+
+# 2. Brown Smoothing Agent
+# Model: Single exponential smoothing
+skill: agent-brown-smoothing
+# Priority: 2
+# Model: qwen-3.5-7b
+
+# 3. Holt's Method Agent
+# Model: Double exponential smoothing (with trend)
+skill: agent-holt-method
+# Priority: 3
+# Model: qwen-3.5-7b
+
+# 4. Exponential Trend Agent
+# Model: Exponential trend forecasting
+skill: agent-exponential-trend
+# Priority: 4
+# Model: qwen-3.5-7b
+
+# 5. Power Function Agent
+# Model: Power function trend forecasting
+skill: agent-power-function
+# Priority: 5
+# Model: qwen-3.5-7b
+
+# 6. Logarithmic Trend Agent
+# Model: Logarithmic trend forecasting
+skill: agent-logarithmic-trend
+# Priority: 6
+# Model: qwen-3.5-7b
+
+# 7. Polynomial Trend Agent
+# Model: Polynomial trend forecasting
+skill: agent-polynomial-trend
+# Priority: 7
+# Model: qwen-3.5-7b
+
+# 8. Multi-Regression Agent
+# Model: Multi-variable regression forecasting
+skill: agent-multi-regression
+# Priority: 8
+# Model: qwen-3.5-14b
+
+# --- General/Utility Agents ---
+
+# 9. Data Import/Validation Agent
+# Model: Handles file import, CSV parsing, data validation
+skill: agent-data-import-validation
+# Priority: 9
+# Model: qwen-3.5-3b
+
+# 10. Auto-Model Selection Agent
+# Model: Analyzes data patterns and recommends best model
+skill: agent-auto-model-selection
+# Priority: 10
+# Model: qwen-3.5-14b
+
+# 11. Statistics Calculation Agent
+# Model: Computes accuracy metrics, statistics for chosen model
+skill: agent-statistics-calculation
+# Priority: 11
+# Model: qwen-3.5-7b
+
+# 12. Chart/Visualization Agent
+# Model: Prepares data for chart rendering
+skill: agent-chart-visualization
+# Priority: 12
+# Model: qwen-3.5-3b
